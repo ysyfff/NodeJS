@@ -1,9 +1,14 @@
 var http = require('http');
 
-var server = http.createServer(function(request, response){
+function onRequest(request, response){
+    console.log('Request received.');
     response.writeHead(200, {'Content-Type': 'text/plain'});
     response.write('Hello nodejs');
     response.end();
-});
+}
+
+var server = http.createServer(onRequest);
 
 server.listen(8888);
+
+console.log('HTTP-server has started.');
