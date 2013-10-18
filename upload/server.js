@@ -2,23 +2,19 @@ var http = require('http');
 var url = require('url');
 
 
-function start(route, handle){
-    function onRequest(request, response){
-        var pathname = url.parse(request.url).pathname;
-        console.log('Request for ' + pathname + ' received');
+function start(route, handle) {
+  function onRequest(request, response) {
+    var pathname = url.parse(request.url).pathname;
+    console.log("Request for " + pathname + " received.");
 
-        route(handle, pathname);
+    response.writeHead(200, {"Content-Type": "text/plain"});
+    var content = route(handle, pathname)
+    response.write(content);
+    response.end();
+  }
 
-        response.writeHead(200, {'Content-Type': 'text/plain'});
-        response.write('Hello nodejs');
-        response.end();
-    }
-
-    var server = http.createServer(onRequest);
-
-    server.listen(8888);    
-
-    console.log('HTTP-server has started.');
+  http.createServer(onRequest).listen(8888);
+  console.log("Server has started.");
 }
 
 exports.start = start;
